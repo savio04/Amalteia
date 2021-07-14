@@ -1,0 +1,14 @@
+CREATE TABLE funcionarios(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(200) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    birth_date DATE NOT NULL,
+    admission_date DATE NOT NULL,
+    sector VARCHAR(100) NOT NULL,
+    office VARCHAR(100) NOT NULL,
+    level VARCHAR(100) NOT NULL,
+    avatar VARCHAR(100),
+    audit_date_insert DATETIME DEFAULT CURRENT_TIMESTAMP,
+    audit_date_update DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(id)
+);
