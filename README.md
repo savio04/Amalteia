@@ -37,10 +37,17 @@ $ cd Amalteia/backend
 # Instale as dependências
 $ npm install
 
-# Renomeie o arquivo ormconfig-exemple.env para ormconfig.env
-# Caso seu login no mysql seja diferente altere o usuario e senha.
-# Esse arquivo serve para a conexão com o banco de dados.
+```
+# Arquivo ormconfig-exemple.env
 
+Na raiz do projeto (Amalteia/backend) existe um arquivo ormconfig-exemple.env, nele possui um exemplo dos dados necessários para a conexão com a base de dados.
+
+![alt text](https://github.com/savio04/Amalteia/blob/main/frontend/src/assets/gihubassets/exemple.env.png)
+
+Basta criar um arquivo ormconfig.env e copiar tudo do arquivo ormconfig-exemple.env,
+colocando suas credencias do mysql (usuario, senha).
+# Iniciando o projeto
+```bash
 # Execute o comando 
 $ npm run dev
 
