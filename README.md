@@ -52,7 +52,7 @@ colocando suas credencias do mysql (usuario, senha).
 # Execute o comando 
 $ npm run dev
 
-# O api inciará na porta:1212
+# A api inciará na porta:1212
 ```
 
 ### Frontend
