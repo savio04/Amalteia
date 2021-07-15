@@ -1,4 +1,4 @@
- .# Projeto Amalteia
+# Projeto Amalteia
 ## Um site que faz cadastros de Funcionários, bem como buscas e atualizações
 ### Pré-requisitos
 
@@ -61,5 +61,7 @@ $ npm run start
 
 # O pojeto inciará na porta:3000 - acesse <http://localhost:3000>
 ```
+### Projeto em execução
+![alt text](https://github.com/savio04/Amalteia/blob/main/frontend/src/assets/gihubassets/tela.png)
 
 ##### 🚧  Em construção...  🚧
