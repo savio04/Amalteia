@@ -32,14 +32,14 @@ CREATE TABLE funcionarios(
 $ git clone <https://github.com/savio04/Amalteia.git>
 
 # Acesse a pasta do projeto no terminal/cmd
-$ cd Almalteia/backend
+$ cd Amalteia/backend
 
 # Instale as dependências
 $ npm install
 
-# Crie um arquivo ormconfig.env na raiz do projeto(Almalteia/backend) e copie tudo do arquivo ormconfig-exemple.env para esse arquivo ormconfig.env
+# Renomeie o arquivo ormconfig-exemple.env para ormconfig.env
 # Caso seu login no mysql seja diferente altere o usuario e senha.
-# Esse arquivo criado serve para a conexão com o banco de dados.
+# Esse arquivo serve para a conexão com o banco de dados.
 
 # Execute o comando 
 $ npm run dev
@@ -51,7 +51,7 @@ $ npm run dev
 ```bash
 
 # Acesse a pasta do projeto no terminal/cmd
-$ cd Almalteia/frontend
+$ cd Amalteia/frontend
 
 # Instale as dependências
 $ npm install
