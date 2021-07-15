@@ -34,6 +34,21 @@ export const EmployeeContent = styled.div`
     flex-direction: column;
 `;
 
+export const EmployeeHeader = styled.header`
+   
+    display: flex;
+    align-items: center;
+    color: #FFF;
+
+    h2{
+        font-weight: bold;
+        margin-bottom: 0;
+        margin-left: 0.3rem;
+        margin-right: 1rem;
+        color: #FFF;
+    }
+`;
+
 export const EmployeeProfile = styled.div`
     display: flex;
     justify-content: space-around;
@@ -65,6 +80,7 @@ export const EmployeeData = styled.div`
 `;
 
 export const DivItem = styled.div<IEmployee>`
+    overflow: auto;
     ${({isDashed}) => isDashed && css`
         border-right: dashed #457B9D 0.12rem;
     `}

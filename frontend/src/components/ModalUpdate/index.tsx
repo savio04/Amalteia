@@ -6,10 +6,15 @@ import { IEmployee } from '../Employee';
 import { Option } from 'antd/lib/mentions';
 import api from '../../services/api';
 import moment from 'moment'
+import { EmployeeContext } from '../../context';
+import { useContext } from 'react';
 
 
 
 const ModalUpdate = (data:IEmployee) => {
+    const employeeContext = useContext(EmployeeContext)
+    const { updateEmployees } = employeeContext
+
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [name,setName] = useState(data.name)
     const [email,setEmail] = useState(data.email)
@@ -34,11 +39,22 @@ const ModalUpdate = (data:IEmployee) => {
         return response.status
     }
 
-    const openNotification = () => {
+    const openNotificationSucess = () => {
         notification.open({
           message: 'Funcionario atualizado com sucesso!',
+          type: 'success',
+          placement: 'topLeft'
         })
-      }
+    }
+
+    const openNotificationError = (err:string) => {
+        notification.open({
+          message: `Ocorreu um erro ao atualizar o Funcionário`,
+          description: `Erro: ${err}`,
+          type: 'error',
+          placement: 'topLeft'
+        })
+    }
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -48,10 +64,14 @@ const ModalUpdate = (data:IEmployee) => {
         setIsModalVisible(false)
 
         handleUpdateEmployee().then(response => {
-            console.log(response)
             if(response === 204){
-                openNotification()
+                openNotificationSucess()
+                updateEmployees()
             }
+        })
+        .catch(err => {
+            const {message} = err.response.data
+            openNotificationError(message)
         })
     };
 
@@ -93,6 +113,9 @@ const ModalUpdate = (data:IEmployee) => {
                     prefix={<FiUser />}
                     value = {name}
                     onChange = {(e) => setName(e.target.value)}
+                    style = {{
+                        marginBottom: '1rem'
+                    }}
                 />
              
                 <Input
@@ -100,7 +123,7 @@ const ModalUpdate = (data:IEmployee) => {
                     onChange = {(e) => setEmail(e.target.value)}
                     size="large" 
                     placeholder="Email" 
-                    prefix={<FiMail />} 
+                    prefix={<FiMail />}
                 />
 
                 <div>
@@ -109,7 +132,7 @@ const ModalUpdate = (data:IEmployee) => {
                         <DatePicker 
                             placeholder = 'Data de admissão'
                             style = {{
-                                width: '47%',
+                                width: '100%',
                             }}
                             defaultValue = {
                                 moment(`${data.admission_date}`,dateFormat)
@@ -125,7 +148,7 @@ const ModalUpdate = (data:IEmployee) => {
                         <DatePicker 
                             placeholder = 'Data de nascimento'
                             style = {{
-                                width: '47%',
+                                width: '100%',
                             }}
                             defaultValue = {
                                 moment(`${data.birth_date}`,dateFormat)
@@ -142,7 +165,7 @@ const ModalUpdate = (data:IEmployee) => {
                         <label htmlFor="">Setor</label>
                         <Select  
                             defaultValue={`${data.sector}`} 
-                            style={{ width: 120 }} 
+                            style={{ width: '100%', paddingRight: '0.4rem'}} 
                             allowClear
                             value = {sector}
                             onChange = {value => setSector(value)}
@@ -158,7 +181,7 @@ const ModalUpdate = (data:IEmployee) => {
                         <label htmlFor="">Cargo</label>
                         <Select 
                             defaultValue={`${data.office}`} 
-                            style={{ width: 120 }} 
+                            style={{ width: '100%'}} 
                             allowClear
                             value = {office}
                             onChange = {value => setOffice(value)}
@@ -174,7 +197,7 @@ const ModalUpdate = (data:IEmployee) => {
                         <label htmlFor="">Nivel</label>
                         <Select 
                             defaultValue={`${data.level}`} 
-                            style={{ width: 120 }} 
+                            style={{ width: '100%', paddingLeft: '0.3rem'}} 
                             allowClear
                             value = {level}
                             onChange = {value => setLevel(value)}

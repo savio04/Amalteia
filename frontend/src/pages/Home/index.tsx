@@ -1,45 +1,45 @@
 import React from 'react'
-import { useState } from 'react'
 import {
     HomeContainer,
     HomeContent,
+    HomeEmpty,
     HomeFooter,
     HomeHeader,
 } from './styles'
-import api from '../../services/api'
-import { FiGithub,FiHeart, FiInstagram, FiLinkedin} from 'react-icons/fi'
-import Employee, { IEmployee } from '../../components/Employee'
-import { Empty } from 'antd'
+import { FiGithub,FiHeart, FiInstagram, FiLinkedin, FiList} from 'react-icons/fi'
+import Employee from '../../components/Employee'
+import { EmployeeContext } from '../../context';
+import { useContext } from 'react'
+import ModalCreate from '../../components/ModalCreate'
+import ImageEmpty from '../../assets/empty.svg'
+
 
 
 function Home(){
-    const [employess,setEmployees] = useState<IEmployee[]>(() => {
-        api.get('/')
-        .then(response => setEmployees(response.data))
-        return []
-    })
+    const employeeContext = useContext(EmployeeContext)
+    const { employees } = employeeContext
     return(
         <HomeContainer>
             <HomeHeader>
-                <h1>Funcionários Cadastrados</h1>
-                <button>Cadastrar</button>
+                <div>
+                    <h1>
+                        <FiList size={35} />
+                        Funcionários Disponiveis
+                    </h1>
+                    <ModalCreate />
+                </div>
             </HomeHeader>
             <HomeContent>
-                {employess.length === 0 && 
-                    <Empty
-                    image = 'https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
-                    description = {
-                        <span>
-                                Nenhum funcionario cadastrado
-                            </span>
-                        }
-                        style = {{
-                            textAlign: 'center',
-                        }}
-                        />
+                {employees.length === 0 ?
+                        <HomeEmpty>
+                            <div>
+                                <img src={ImageEmpty} alt="" />
+                            </div>
+                            <h2>Nenhum funcionário cadastrado</h2>
+                        </HomeEmpty>
+                        :
+                        employees.map(employee => <Employee key = {employee.id} {...employee} />)
                     }
-
-                {employess.map(employee => <Employee key = {employee.id} {...employee} />)}
             </HomeContent>
             <HomeFooter>
                 <div>

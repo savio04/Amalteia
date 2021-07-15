@@ -2,14 +2,14 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import Routes from './routes';
 import GlobalStyles from './styles/GlobalStyles';
-import AuthProvider from './context';
+import EmployeeProvider from './context';
 
 function App() {
   return (
     <>
-      <AuthProvider>
+      <EmployeeProvider>
         <Routes />
-      </AuthProvider>
+      </EmployeeProvider>
       <GlobalStyles />
     </>
   );

@@ -1,36 +1,34 @@
-import React,{ createContext, useState} from 'react'
+import React, { createContext, PropsWithChildren, ReactNode } from 'react'
+import { useState } from 'react'
 import { IEmployee } from '../components/Employee'
 import api from '../services/api'
 
-
-interface AuthContextProps{
-  isError: boolean
+interface IEmployeesContext{
   employees: IEmployee[]
-  employeeContext:void
+  updateEmployees():void
 }
 
-export const AuthContext = createContext({} as AuthContextProps)
+export const EmployeeContext  = createContext({} as IEmployeesContext)
 
+function EmployeeProvider({children}:PropsWithChildren<ReactNode>){
+  const [employees,setEmployees] = useState<IEmployee[]>(() => {
+    api.get('/').then(response => setEmployees(response.data))
+    return []
+  })
 
-const AuthProvider: React.FC = ({children}) => {
-  
-  const [hasError,setHasError] = useState(false)
-  const [employees,setEmployes] = useState<IEmployee[]>([])
-
-  const employeeContext =() => {
-    api.get('/').then(response => {
-      setEmployes(response.data)
-    })
+  function updateEmployees(){
+    api.get('/')
+      .then(response => setEmployees(response.data))
+      .catch(err => console.log(err))
   }
+
   return(
-    <AuthContext.Provider value  ={{
-      isError: hasError,
-      employees,
-      employeeContext: employeeContext()
-    }}>
+    <EmployeeContext.Provider
+      value = {{ employees, updateEmployees}}
+    >
       {children}
-    </AuthContext.Provider>
+    </EmployeeContext.Provider>
   )
 }
 
-export default AuthProvider
+export default EmployeeProvider

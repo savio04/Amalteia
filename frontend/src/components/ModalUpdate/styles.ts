@@ -5,16 +5,17 @@ export const Form = styled.form`
     div{
         display: flex;
         justify-content: space-between;
-        margin-top: 0.4rem;
+        width: 100%;
     }
 `;
 
 export const FormItem = styled.span`
     display: flex;
+    width: 45%;
     flex-direction: column;
-    width: 100%;
     justify-content: start;
+    margin-top: 1rem;
     label{
-        margin-bottom: 0.6rem;
+        padding-bottom: 0.2rem;
     }
 `;

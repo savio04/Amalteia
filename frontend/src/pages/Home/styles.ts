@@ -12,11 +12,36 @@ export const HomeContainer = styled.div`
     }
 `;
 
-export const HomeHeader = styled.header``;
+
+export const HomeHeader = styled.header`
+    width: 100%;
+    height: 6rem;
+    display: flex;
+    justify-content: center;
+    border-bottom: solid #A8DADC 0.13rem;
+    box-shadow: 0.2rem 0rem 1.5rem rgba(0,0,0,0.3);
+    h1{
+        margin: 0;
+        display: flex;
+        align-items: center;
+        width: auto;
+        svg{
+            margin-right: 0.6rem;
+        }
+    }
+    div{
+        height: 100%;
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+`;
 
 export const HomeContent = styled.section`
     display: grid;
     grid-template-columns: repeat(auto-fit,25rem);
+    flex-wrap: wrap;
     height: 100%;
     width: 100%;
     margin-top: 2rem;
@@ -26,7 +51,7 @@ export const HomeContent = styled.section`
     align-items: center;
     margin-bottom: 6rem;
 
-    @media(max-width:30rem){
+    @media(max-width:40rem){
         grid-template-columns: repeat(auto-fit,90%);
     }
 `;
@@ -60,5 +85,23 @@ export const HomeFooter = styled.footer`
             margin-left: 0.2rem;
             margin-right: 0.2rem;
         }
+    }
+`;
+
+export const HomeEmpty = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    div{
+        width: 18rem;
+    }
+
+    img{
+        width: 100%;
+    }
+
+    h2{
+        margin-top: 2rem;
     }
 `;

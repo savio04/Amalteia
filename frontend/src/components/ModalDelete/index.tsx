@@ -3,10 +3,9 @@ import { Modal, Button, notification} from 'antd';
 import api from '../../services/api';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { FiTrash2 } from 'react-icons/fi';
-/**
- * Todo
- * context with employess
- */
+import { EmployeeContext } from '../../context';
+import { useContext } from 'react';
+import { DeleteMessageContainer } from './styles';
 
 interface IModalDelete{
   id:string
@@ -18,6 +17,8 @@ interface IModalDelete{
 const ModalDelete = (data:IModalDelete) => {
   
   const {confirm} = Modal
+  const employeeContext = useContext(EmployeeContext)
+  const { updateEmployees } = employeeContext
 
   const handleDeleteEmployee = async() => {
     const response = await api.delete(`/${data.id}`)
@@ -27,9 +28,8 @@ const ModalDelete = (data:IModalDelete) => {
   const openNotification = () => {
     notification.open({
       message: 'Funcionario Deletado com sucesso!',
-      style: {
-        borderWidth: 2,
-      }
+      type: 'success',
+      placement: 'topLeft'
     })
   }
 
@@ -38,10 +38,14 @@ const ModalDelete = (data:IModalDelete) => {
       title: 'Deletar este funcionário?',
       icon: <ExclamationCircleOutlined />,
       content: (
-        <span>
-          <p> Nome: {data.name} </p>
-          <p> Cargo: {data.office} </p>
-        </span>
+        <DeleteMessageContainer>
+            <p>
+              <b>Nome</b>: {data.name}
+            </p>
+            <p>
+              <b>Cargo</b>: {data.office}
+            </p>
+        </DeleteMessageContainer>
       ),
       okText: 'Sim',
       okType: 'danger',
@@ -50,6 +54,7 @@ const ModalDelete = (data:IModalDelete) => {
         handleDeleteEmployee().then(response => {
           if(response === 204){
             openNotification()
+            updateEmployees()
           }
         })
       },
