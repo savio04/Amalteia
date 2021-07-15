@@ -31,7 +31,7 @@ function Employee(data:IEmployee){
         <EmployeeContainer>
             <EmployeeContent>
                 <EmployeeHeader>
-                    <FiMoon size = {35} />
+                    <FiMoon size = {25} />
                     <h2>Amalteia</h2>
                 </EmployeeHeader>
                 <EmployeeProfile>
