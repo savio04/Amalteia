@@ -1,5 +1,4 @@
 const formatDate = (date:Date) => {
-    console.log(date)
     const day = date.getDate().toString()
     const dayFinaly = day.length === 1 ? '0' + day : day
 
