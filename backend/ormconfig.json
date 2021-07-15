@@ -1,9 +1,0 @@
-{
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
-    "password": "01075783",
-    "database": "actionsys",
-    "entities": ["./src/modules/**/entities/*.ts"]
- }

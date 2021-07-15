@@ -26,9 +26,6 @@ class Employee{
     @Column()
     level: string
 
-    @Column()
-    avatar:string
-
     @CreateDateColumn()
     audit_date_insert: Date
 

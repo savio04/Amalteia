@@ -3,7 +3,6 @@ import Employee from "../entities/employee";
 
 export interface IEmployeeDTO{
     id?:string
-    avatar?:string
     name: string
     email :string
     birth_date: Date

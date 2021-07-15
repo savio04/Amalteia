@@ -22,8 +22,7 @@ class EmployeeRepository implements IEmployeeRepository{
         admission_date, 
         sector, 
         office,  
-        level,
-        avatar
+        level
     }:IEmployeeDTO){
         const employee = this.employeeRepository.create({
             id,
@@ -33,8 +32,7 @@ class EmployeeRepository implements IEmployeeRepository{
             admission_date, 
             sector, 
             office,  
-            level,
-            avatar
+            level
         })
 
         await this.employeeRepository.save(employee)
@@ -65,7 +63,9 @@ class EmployeeRepository implements IEmployeeRepository{
     }
 
     async listAll(){
-        const employees = await this.employeeRepository.find()
+        const employees = await this.employeeRepository.createQueryBuilder()
+        .orderBy('name')
+        .getMany()
 
         return employees
     }

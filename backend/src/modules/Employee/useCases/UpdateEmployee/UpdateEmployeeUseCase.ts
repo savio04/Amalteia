@@ -1,6 +1,5 @@
 import AppError from "../../../../errors/AppErro";
 import IEmployeeRepository, { IEmployeeDTO } from "../../repositories/IEmployeeRepository";
-import delteFile from '../../../../utils/file'
 class UpdateEmployeeUseCase{
     
     constructor(private employeeRepository:IEmployeeRepository){}
