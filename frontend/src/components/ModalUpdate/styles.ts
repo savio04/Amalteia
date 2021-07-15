@@ -1,4 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { FiInfo } from 'react-icons/fi'
+
+interface IErrorInput{
+    isError?:boolean
+}
+
 
 export const Form = styled.form`
 
@@ -6,6 +12,7 @@ export const Form = styled.form`
         display: flex;
         justify-content: space-between;
         width: 100%;
+        overflow: auto;
     }
 `;
 
@@ -18,4 +25,10 @@ export const FormItem = styled.span`
     label{
         padding-bottom: 0.2rem;
     }
+`;
+
+export const FiInfoIcon = styled(FiInfo)<IErrorInput>`
+${({isError}) => isError && css`
+        color: red;
+    `}
 `;

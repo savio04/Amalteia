@@ -36,6 +36,15 @@ export const HomeHeader = styled.header`
         align-items: center;
         justify-content: space-between;
     }
+
+    @media(max-width: 40rem){
+        h1{
+            font-size: 1rem;
+            svg{
+               display: none;
+            }
+        }
+    }
 `;
 
 export const HomeContent = styled.section`

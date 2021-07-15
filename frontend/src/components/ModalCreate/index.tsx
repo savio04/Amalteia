@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Modal, Button, DatePicker, Select, notification, Tooltip } from 'antd';
-import { FiInfo, FiMail, FiUser, FiUserPlus} from 'react-icons/fi';
+import { Modal, Button, DatePicker, Select, notification, Tooltip, Input } from 'antd';
+import {  FiMail, FiUser, FiUserPlus} from 'react-icons/fi';
 import { Option } from 'antd/lib/mentions';
 import api from '../../services/api';
 import { EmployeeContext } from '../../context';
-import { Form, FormItem, InputForm } from './styles'
+import { FiInfoIcon, Form, FormItem } from './styles'
 import { useContext } from 'react';
 import schema from '../../utils/dataValidation';
 
-
+interface IError{
+    message:string
+    path:string
+}
 
 const ModalCreate = () => {
     const employeeContext = useContext(EmployeeContext)
@@ -23,7 +26,7 @@ const ModalCreate = () => {
     const [office,setOffice] = useState('')
     const [level,setLevel] = useState('')
 
-    const [errorData,setErrorData] = useState(false)
+    const [errorData,setErrorData] = useState({} as any)
 
     const handleCreateEmployee = async () => {
        
@@ -63,27 +66,25 @@ const ModalCreate = () => {
 
     const handleOk = () => {
         schema.validate({
-            name,
-            email,
-            admission_date,
-            birth_date,
-            sector,
-            office,
-            level
-        }).then(() => {
+            nameValid: name,
+            emailValid: email,
+            admission_dateValid: admission_date,
+            birth_dateValid: birth_date,
+            sectorValid: sector,
+            officeValid: office,
+            levelValid: level
+        },{abortEarly: false}).then(() => {
             handleCreateEmployee().then(response => {
                 if(response === 200){
                     openNotificationSucess()
                     updateEmployees()
                     setIsModalVisible(false)
-                    // updateEmployees()
-                    // setName('')
-                    // setEmail('')
-                    // setAdmissionDate()
-                    // setBirthDate()
-                    // setSector('')
-                    // setOffice('')
-                    // setLevel('')
+                    setErrorData({})
+                    setName('')
+                    setEmail('')
+                    setSector('')
+                    setOffice('')
+                    setLevel('')
                 }
             })
             .catch(err => {
@@ -92,9 +93,17 @@ const ModalCreate = () => {
             })
         })
         .catch(err => {
-            console.log(err)
-            setErrorData(true)
-            openNotificationError(err)
+            const errors:IError[] = err.inner
+            errors.forEach(e => {
+                const teste = errorData
+                teste[`${e.path}`] = e.message
+            
+                setErrorData({...teste})
+
+                if(e.path !== 'emailValid' && e.path !== 'nameValid'){
+                    openNotificationError(e.message)
+                }
+            })
         })
     };
 
@@ -132,28 +141,31 @@ const ModalCreate = () => {
         >
             <Form>
             
-            <InputForm 
+            <Input 
                 size="large" 
                 placeholder="Nome"
                 prefix={<FiUser />}
-                suffix = {errorData && <Tooltip title = 'teste'>
-                    <FiInfo size = {20} />
+                suffix = {!!errorData['nameValid'] && 
+                <Tooltip title = {`${errorData['nameValid']}`}>
+                    <FiInfoIcon size = {20} isError = {!!errorData['nameValid']}/>
                 </Tooltip>}
                 value = {name}
                 onChange = {(e) => setName(e.target.value)}
                 style = {{
                     marginBottom: '1rem'
                 }}
-                isError = {errorData}
             />
     
-            <InputForm
+            <Input
                 value = {email}
                 onChange = {(e) => setEmail(e.target.value)}
                 size="large" 
                 placeholder="exemplo@gmail.com" 
                 prefix={<FiMail />}
-                isError = {errorData}
+                suffix = {!!errorData['emailValid'] && 
+                <Tooltip title = {`${errorData['emailValid']}`}>
+                    <FiInfoIcon isError = {!!errorData['emailValid']} size = {20} />
+                </Tooltip>}
             />
 
              <div>

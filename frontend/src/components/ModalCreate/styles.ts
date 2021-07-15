@@ -1,8 +1,9 @@
 import styled, { css } from 'styled-components'
-import { Input, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
+import { FiInfo } from 'react-icons/fi'
 
 interface IErrorInput{
-    isError:boolean
+    isError?:boolean
 }
 
 export const Form = styled.form`
@@ -10,15 +11,13 @@ export const Form = styled.form`
         display: flex;
         justify-content: space-between;
         width: 100%;
+        overflow: auto;
     }
 `;
 
-export const InputForm = styled(Input)<IErrorInput>`
-    ${({isError}) => isError && css`
-        border-color: red;
-        svg{
-            color: red;
-        }
+export const FiInfoIcon = styled(FiInfo)<IErrorInput>`
+${({isError}) => isError && css`
+        color: red;
     `}
 `;
 

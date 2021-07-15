@@ -1,20 +1,13 @@
 import * as yup from 'yup'
 
-// name: string
-// email :string
-// birth_date: Date
-// admission_date: Date
-// sector: string
-// office: string 
-// level: string 
 const schema = yup.object().shape({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
-    admission_date: yup.date().required(),
-    birth_date: yup.date().required(),
-    setor: yup.string().required(),
-    office: yup.string().required(),
-    level: yup.string().required()
+    nameValid: yup.string().required('O nome é obrigatorio'),
+    emailValid: yup.string().email('Digite um email valido').required('O email é obrigatorio'),
+    admission_dateValid: yup.date().required('Data da admissão é obrigatoria'),
+    birth_dateValid: yup.date().required('Data de nascimento é obrigatoria'),
+    sectorValid: yup.string().required('Setor é um campo obrigatorio'),
+    officeValid: yup.string().required('Cargo é um campo obrigatorio'),
+    levelValid: yup.string().required('Nivel é um campo obrigatorio')
 })
 
 export default schema

@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Modal, Button, Input, DatePicker, Select, notification } from 'antd';
+import { Modal, Button, Input, DatePicker, Select, notification, Tooltip } from 'antd';
 import { FiEdit2, FiMail, FiUser} from 'react-icons/fi';
-import { Form, FormItem } from './styles'
+import { FiInfoIcon, Form, FormItem } from './styles'
 import { IEmployee } from '../Employee';
 import { Option } from 'antd/lib/mentions';
 import api from '../../services/api';
 import moment from 'moment'
 import { EmployeeContext } from '../../context';
 import { useContext } from 'react';
+import schema from '../../utils/dataValidation';
 
-
+interface IError{
+    message:string
+    path:string
+}
 
 const ModalUpdate = (data:IEmployee) => {
     const employeeContext = useContext(EmployeeContext)
@@ -24,6 +28,8 @@ const ModalUpdate = (data:IEmployee) => {
     const [office,setOffice] = useState(data.office)
     const [level,setLevel] = useState(data.level)
     const dateFormat = 'YYYY/MM/DD'
+    const [errorData,setErrorData] = useState({} as any)
+
 
     const handleUpdateEmployee = async () => {
         const response = await api.put(`/${data.id}`,{
@@ -61,17 +67,39 @@ const ModalUpdate = (data:IEmployee) => {
     };
 
     const handleOk = () => {
-        setIsModalVisible(false)
-
-        handleUpdateEmployee().then(response => {
-            if(response === 204){
-                openNotificationSucess()
-                updateEmployees()
-            }
+        schema.validate({
+            nameValid: name,
+            emailValid: email,
+            admission_dateValid: admission_date,
+            birth_dateValid: birth_date,
+            sectorValid: sector,
+            officeValid: office,
+            levelValid: level
+        },{abortEarly: false}).then(() => {
+            handleUpdateEmployee().then(response => {
+                if(response === 204){
+                    openNotificationSucess()
+                    updateEmployees()
+                    setIsModalVisible(false)
+                }
+            })
+            .catch(err => {
+                const {message} = err.response.data
+                openNotificationError(message)
+            })
         })
         .catch(err => {
-            const {message} = err.response.data
-            openNotificationError(message)
+            const errors:IError[] = err.inner
+            errors.forEach(e => {
+                const teste = errorData
+                teste[`${e.path}`] = e.message
+            
+                setErrorData({...teste})
+
+                if(e.path !== 'emailValid' && e.path !== 'nameValid'){
+                    openNotificationError(e.message)
+                }
+            })
         })
     };
 
@@ -111,6 +139,10 @@ const ModalUpdate = (data:IEmployee) => {
                     size="large" 
                     placeholder="Nome"
                     prefix={<FiUser />}
+                    suffix = {!!errorData['nameValid'] && 
+                    <Tooltip title = {`${errorData['nameValid']}`}>
+                        <FiInfoIcon size = {20} isError = {!!errorData['nameValid']}/>
+                    </Tooltip>}
                     value = {name}
                     onChange = {(e) => setName(e.target.value)}
                     style = {{
@@ -124,6 +156,10 @@ const ModalUpdate = (data:IEmployee) => {
                     size="large" 
                     placeholder="Email" 
                     prefix={<FiMail />}
+                    suffix = {!!errorData['emailValid'] && 
+                    <Tooltip title = {`${errorData['emailValid']}`}>
+                        <FiInfoIcon isError = {!!errorData['emailValid']} size = {20} />
+                    </Tooltip>}
                 />
 
                 <div>
@@ -140,6 +176,7 @@ const ModalUpdate = (data:IEmployee) => {
                             onChange = {(date,datestring) => 
                                 setAdmissionDate(new Date(datestring))
                             }
+                            format = {dateFormat}
                         />
                     </FormItem>
 
@@ -156,6 +193,7 @@ const ModalUpdate = (data:IEmployee) => {
                             onChange = {(data,datastring) => 
                                 setBirthDate(new Date(datastring))
                             }
+                            format = {dateFormat}
                         />
                     </FormItem>
                 </div>
